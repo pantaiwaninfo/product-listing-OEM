@@ -1,0 +1,1985 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OEM官網產品上架及維護管理系統</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background: linear-gradient(135deg, #9C8B7A 0%, #B5A491 100%);
+min-height: 100vh;
+color: #333;
+line-height: 1.6;
+}
+
+.container {
+max-width: 1400px;
+margin: 0 auto;
+padding: 20px;
+}
+
+.header {
+text-align: center;
+margin-bottom: 30px;
+background: rgba(255, 255, 255, 0.95);
+backdrop-filter: blur(10px);
+padding: 40px;
+border-radius: 20px;
+box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.header h1 {
+background: linear-gradient(135deg, #7D6E83 0%, #9C8B7A 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-size: 2.8em;
+margin-bottom: 15px;
+font-weight: 700;
+letter-spacing: -1px;
+}
+
+.mode-indicator {
+display: inline-block;
+padding: 10px 25px;
+border-radius: 25px;
+font-weight: 600;
+margin-top: 15px;
+font-size: 14px;
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+
+.mode-selector {
+margin-bottom: 20px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 15px;
+}
+
+.mode-selector label {
+font-weight: 600;
+color: #5D5A57;
+font-size: 16px;
+}
+
+.mode-selector select {
+padding: 12px 20px;
+border: 2px solid transparent;
+border-radius: 12px;
+font-size: 14px;
+font-weight: 600;
+background: linear-gradient(135deg, #7D6E83 0%, #9C8B7A 100%);
+color: white;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+
+.mode-selector select:hover {
+transform: translateY(-2px);
+box-shadow: 0 5px 15px rgba(125, 110, 131, 0.4);
+}
+
+.mode-selector select:focus {
+outline: none;
+box-shadow: 0 0 0 3px rgba(125, 110, 131, 0.3);
+}
+
+.mode-selector select option {
+background: white;
+color: #333;
+padding: 10px;
+}
+
+.mode-new {
+background: linear-gradient(135deg, #A4B5A0 0%, #C8D5C1 100%);
+color: white;
+box-shadow: 0 4px 15px rgba(164, 181, 160, 0.3);
+}
+
+.mode-update {
+background: linear-gradient(135deg, #7D6E83 0%, #9C8B7A 100%);
+color: white;
+box-shadow: 0 4px 15px rgba(125, 110, 131, 0.3);
+}
+
+.basic-info, .ai-content {
+background: rgba(255, 255, 255, 0.95);
+backdrop-filter: blur(15px);
+padding: 35px;
+border-radius: 20px;
+margin-bottom: 25px;
+box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+border: 1px solid rgba(255, 255, 255, 0.2);
+transition: transform 0.3s ease;
+}
+
+.basic-info:hover, .ai-content:hover {
+transform: translateY(-2px);
+}
+
+.basic-info h2, .ai-content h2 {
+font-size: 1.8em;
+margin-bottom: 30px;
+font-weight: 700;
+position: relative;
+padding-bottom: 15px;
+}
+
+.basic-info h2 {
+background: linear-gradient(135deg, #7D6E83 0%, #9C8B7A 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+
+.basic-info h2::after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 0;
+width: 60px;
+height: 4px;
+background: linear-gradient(135deg, #7D6E83 0%, #9C8B7A 100%);
+border-radius: 2px;
+}
+
+.ai-content h2 {
+color: #B5A491;
+}
+
+.ai-content h2::after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 0;
+width: 60px;
+height: 4px;
+background: linear-gradient(135deg, #B5A491 0%, #C8D5C1 100%);
+border-radius: 2px;
+}
+
+.form-row {
+display: flex;
+gap: 25px;
+margin-bottom: 25px;
+align-items: end;
+}
+
+.form-group {
+flex: 1;
+}
+
+.form-group label {
+display: block;
+margin-bottom: 10px;
+font-weight: 600;
+color: #5D5A57;
+font-size: 14px;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.required {
+color: #D4A574;
+font-weight: 700;
+}
+
+.form-group input, .form-group textarea, .form-group select {
+width: 100%;
+padding: 15px 20px;
+border: 2px solid #E8E6E1;
+border-radius: 12px;
+font-size: 15px;
+transition: all 0.3s ease;
+background: rgba(255, 255, 255, 0.8);
+backdrop-filter: blur(5px);
+}
+
+.form-group select {
+cursor: pointer;
+}
+
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+outline: none;
+border-color: #7D6E83;
+box-shadow: 0 0 0 3px rgba(125, 110, 131, 0.1);
+transform: translateY(-1px);
+}
+
+.form-group input:disabled, .form-group select:disabled {
+background-color: #f5f5f5;
+color: #6c757d;
+cursor: not-allowed;
+}
+
+.custom-input-container {
+display: none;
+margin-top: 10px;
+}
+
+.custom-input-container.show {
+display: block;
+}
+
+.check-btn {
+background: linear-gradient(135deg, #7D6E83 0%, #9C8B7A 100%);
+color: white;
+border: none;
+padding: 15px 25px;
+border-radius: 12px;
+cursor: pointer;
+font-weight: 600;
+transition: all 0.3s ease;
+text-transform: uppercase;
+letter-spacing: 1px;
+font-size: 14px;
+}
+
+.check-btn:hover {
+transform: translateY(-3px);
+box-shadow: 0 10px 25px rgba(125, 110, 131, 0.4);
+}
+
+.generate-btn {
+background: linear-gradient(135deg, #A4B5A0 0%, #C8D5C1 100%);
+color: white;
+border: none;
+padding: 18px 40px;
+border-radius: 50px;
+font-size: 16px;
+font-weight: 700;
+cursor: pointer;
+margin: 30px auto;
+display: block;
+transition: all 0.3s ease;
+text-transform: uppercase;
+letter-spacing: 1px;
+position: relative;
+overflow: hidden;
+}
+
+.generate-btn::before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+transition: left 0.5s;
+}
+
+.generate-btn:hover::before {
+left: 100%;
+}
+
+.generate-btn:hover {
+transform: translateY(-3px);
+box-shadow: 0 15px 35px rgba(164, 181, 160, 0.4);
+}
+
+.generate-btn:disabled {
+background: linear-gradient(135deg, #9B9B9B 0%, #7A7A7A 100%);
+cursor: not-allowed;
+transform: none;
+box-shadow: none;
+}
+
+.warning-text {
+background: linear-gradient(135deg, #F4F1EC 0%, #E8E3DD 100%);
+color: #7D6E83;
+padding: 15px 20px;
+border-radius: 12px;
+margin-bottom: 25px;
+border-left: 5px solid #B5A491;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.section {
+margin-bottom: 35px;
+}
+
+.section-title {
+background: linear-gradient(135deg, #7D6E83 0%, #9C8B7A 100%);
+color: white;
+padding: 15px 25px;
+margin-bottom: 20px;
+border-radius: 12px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+justify-content: space-between;
+box-shadow: 0 4px 15px rgba(125, 110, 131, 0.3);
+}
+
+.section-title:hover {
+transform: translateY(-2px);
+box-shadow: 0 8px 25px rgba(125, 110, 131, 0.4);
+}
+
+.section-title::before {
+content: "▼";
+font-size: 12px;
+transition: transform 0.3s ease;
+}
+
+.section.collapsed .section-title::before {
+transform: rotate(-90deg);
+}
+
+.section.collapsed .section-content {
+display: none;
+}
+
+.field-row {
+display: flex;
+gap: 25px;
+margin-bottom: 25px;
+align-items: stretch;
+}
+
+.original-data, .ai-data {
+flex: 1;
+border-radius: 15px;
+padding: 20px;
+transition: all 0.3s ease;
+position: relative;
+overflow: hidden;
+}
+
+.original-data {
+background: linear-gradient(135deg, #F4F1EC 0%, #E8E3DD 100%);
+border: 2px solid #D4D0CB;
+}
+
+.original-data .field-content {
+white-space: pre-line;
+}
+
+.original-data::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 4px;
+background: linear-gradient(135deg, #9B9B9B 0%, #7A7A7A 100%);
+}
+
+.ai-data {
+background: linear-gradient(135deg, #F0F3F0 0%, #E5EBE5 100%);
+border: 2px solid #A4B5A0;
+}
+
+.ai-data::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 4px;
+background: linear-gradient(135deg, #7D6E83 0%, #9C8B7A 100%);
+}
+
+.field-header {
+font-weight: 700;
+margin-bottom: 15px;
+color: #5D5A57;
+font-size: 14px;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.field-content {
+min-height: 60px;
+}
+
+.field-content textarea, .field-content input {
+width: 100%;
+min-height: 80px;
+border: 2px solid #E8E6E1;
+border-radius: 10px;
+padding: 12px 15px;
+resize: vertical;
+font-family: inherit;
+transition: all 0.3s ease;
+background: rgba(255, 255, 255, 0.9);
+}
+
+.review-badge {
+background: linear-gradient(135deg, #D4A574 0%, #B5A491 100%);
+color: white;
+padding: 3px 8px;
+border-radius: 12px;
+font-size: 11px;
+font-weight: 700;
+margin-left: 8px;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+box-shadow: 0 2px 4px rgba(212, 165, 116, 0.3);
+animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+0% { box-shadow: 0 2px 4px rgba(212, 165, 116, 0.3); }
+50% { box-shadow: 0 2px 8px rgba(212, 165, 116, 0.6); }
+100% { box-shadow: 0 2px 4px rgba(212, 165, 116, 0.3); }
+}
+
+#aiIntroduction {
+min-height: 180px;
+}
+
+#aiDetailedDesc {
+min-height: 180px;
+}
+
+#aiFeatures {
+min-height: 180px;
+}
+
+#aiSpecs {
+min-height: 150px;
+}
+
+#aiMedia1,
+#aiMedia2,
+#aiMedia3 {
+min-height: 180px;
+}
+
+.field-content textarea:focus, .field-content input:focus {
+border-color: #7D6E83;
+box-shadow: 0 0 0 3px rgba(125, 110, 131, 0.1);
+outline: none;
+}
+
+.refresh-btn {
+background: linear-gradient(135deg, #A4B5A0 0%, #C8D5C1 100%);
+color: white;
+border: none;
+padding: 8px 15px;
+border-radius: 20px;
+cursor: pointer;
+font-size: 12px;
+font-weight: 600;
+margin-top: 10px;
+transition: all 0.3s ease;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.refresh-btn:hover {
+transform: translateY(-2px);
+box-shadow: 0 5px 15px rgba(164, 181, 160, 0.4);
+}
+
+.refresh-btn:disabled {
+background: linear-gradient(135deg, #9B9B9B 0%, #7A7A7A 100%);
+cursor: not-allowed;
+transform: none;
+box-shadow: none;
+}
+
+.loading {
+display: none;
+text-align: center;
+padding: 30px;
+background: rgba(255, 255, 255, 0.95);
+backdrop-filter: blur(15px);
+border-radius: 20px;
+margin-bottom: 25px;
+box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+.loading.show {
+display: block;
+}
+
+.loading-content {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 15px;
+color: #7D6E83;
+font-weight: 600;
+font-size: 18px;
+}
+
+.spinner {
+display: inline-block;
+animation: spin 2s linear infinite;
+font-size: 24px;
+}
+
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+
+.action-buttons {
+text-align: center;
+padding: 40px;
+background: rgba(255, 255, 255, 0.95);
+backdrop-filter: blur(15px);
+border-radius: 20px;
+box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.action-btn {
+padding: 15px 35px;
+margin: 0 15px;
+border: none;
+border-radius: 50px;
+font-size: 16px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
+text-transform: uppercase;
+letter-spacing: 1px;
+position: relative;
+overflow: hidden;
+}
+
+.action-btn::before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+transition: left 0.5s;
+}
+
+.action-btn:hover::before {
+left: 100%;
+}
+
+.save-btn {
+background: linear-gradient(135deg, #A4B5A0 0%, #C8D5C1 100%);
+color: white;
+box-shadow: 0 4px 15px rgba(164, 181, 160, 0.3);
+}
+
+.save-btn:hover {
+transform: translateY(-3px);
+box-shadow: 0 8px 25px rgba(164, 181, 160, 0.4);
+}
+
+.preview-btn {
+background: linear-gradient(135deg, #7D6E83 0%, #9C8B7A 100%);
+color: white;
+box-shadow: 0 4px 15px rgba(125, 110, 131, 0.3);
+}
+
+.preview-btn:hover {
+transform: translateY(-3px);
+box-shadow: 0 8px 25px rgba(125, 110, 131, 0.4);
+}
+
+.clear-btn {
+background: linear-gradient(135deg, #D4A574 0%, #B5A491 100%);
+color: white;
+box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3);
+}
+
+.clear-btn:hover {
+transform: translateY(-3px);
+box-shadow: 0 8px 25px rgba(212, 165, 116, 0.4);
+}
+
+.help-text {
+font-size: 12px;
+color: #7A7A7A;
+margin-top: 8px;
+font-style: italic;
+}
+
+.fade-in {
+animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+.container {
+padding: 15px;
+}
+
+.form-row, .field-row {
+flex-direction: column;
+gap: 20px;
+}
+
+.action-btn {
+display: block;
+width: 100%;
+margin: 10px 0;
+}
+
+.header h1 {
+font-size: 2.2em;
+}
+
+.mode-selector {
+flex-direction: column;
+gap: 10px;
+}
+
+.basic-info, .ai-content {
+padding: 25px;
+}
+}
+
+@media (prefers-color-scheme: dark) {
+.original-data {
+background: linear-gradient(135deg, #3E3A37 0%, #4A453F 100%);
+border-color: #5D5A57;
+color: #E8E6E1;
+}
+
+.ai-data {
+background: linear-gradient(135deg, #373D37 0%, #424A42 100%);
+border-color: #5D6B5D;
+color: #E8E6E1;
+}
+
+.field-header {
+color: #E8E6E1;
+}
+}
+
+.form-group input:valid {
+border-color: #A4B5A0;
+}
+
+.form-group input:invalid:not(:placeholder-shown) {
+border-color: #D4A574;
+}
+
+::-webkit-scrollbar {
+width: 8px;
+}
+
+::-webkit-scrollbar-track {
+background: rgba(255, 255, 255, 0.1);
+border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+background: linear-gradient(135deg, #7D6E83 0%, #9C8B7A 100%);
+border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+background: linear-gradient(135deg, #6A5B6F 0%, #897A67 100%);
+}
+</style>
+</head>
+<body>
+<div class="container">
+<!-- Header -->
+<div class="header">
+<h1>🏭 OEM官網產品上架及維護管理系統</h1>
+<div class="mode-selector">
+<label for="operationMode">操作模式：</label>
+<select id="operationMode" onchange="changeMode()">
+<option value="new">新增產品</option>
+<option value="update">修改產品</option>
+</select>
+</div>
+<div class="mode-indicator mode-new" id="modeIndicator">新增模式</div>
+</div>
+
+<!-- Basic Information -->
+<div class="basic-info">
+<h2>📝 基本資訊</h2>
+
+<div class="form-row">
+<div class="form-group">
+<label for="productModel">產品型號(D欄) <span class="required">*</span></label>
+<input type="text" id="productModel" placeholder="請輸入產品型號">
+</div>
+<div id="checkModelSection">
+<button type="button" class="check-btn" onclick="checkProductModel()">檢查型號是否重複</button>
+</div>
+<div id="loadDataSection" style="display: none;">
+<button type="button" class="check-btn" onclick="loadExistingProduct()">載入資料</button>
+</div>
+</div>
+
+<div class="form-row">
+<div class="form-group">
+<label for="categoryId">分類系統ID(B欄) <span class="required">*</span></label>
+<select id="categoryId">
+<option value="">載入中...</option>
+</select>
+<div class="custom-input-container" id="customCategoryContainer">
+<input type="text" id="customCategoryId" placeholder="請輸入新的分類系統ID">
+</div>
+</div>
+<div class="form-group">
+<label for="productName">產品名稱(C欄) <span class="required">*</span></label>
+<input type="text" id="productName" placeholder="請輸入產品名稱">
+</div>
+</div>
+
+<div class="form-row">
+<div class="form-group">
+<label for="supplierInfo">廠商資料</label>
+<textarea id="supplierInfo" rows="3" placeholder="非必填，供AI參考"></textarea>
+<div class="help-text">可提供廠商的產品規格、特色說明等資料</div>
+</div>
+</div>
+
+<button type="button" class="generate-btn" onclick="generateAIContent()" id="generateBtn">
+🤖 生成AI文案
+</button>
+</div>
+
+<!-- Loading -->
+<div class="loading" id="loadingDiv">
+<div class="loading-content">
+<span class="spinner">🤖</span>
+<span>AI 正在為您生成精彩內容，請稍候...</span>
+</div>
+</div>
+
+<!-- AI Generated Content -->
+<div class="ai-content fade-in" id="aiContent">
+<h2>🤖 AI生成內容</h2>
+<div class="warning-text">
+⚠️ 以下內容由AI生成，請仔細確認並修改後再儲存
+</div>
+
+<!-- 基本資訊 (A E F G欄) -->
+<div class="section">
+<div class="section-title" onclick="toggleSection(this)">基本資訊</div>
+<div class="section-content">
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">產品系統ID(A欄) - 原始資料</div>
+<div class="field-content" id="originalSystemId">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">產品系統ID(A欄) - AI生成</div>
+<div class="field-content">
+<input type="text" id="aiSystemId" readonly>
+</div>
+</div>
+</div>
+
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">產品別稱(E欄) - 原始資料</div>
+<div class="field-content" id="originalAlias">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">產品別稱(E欄) - AI生成<span class="review-badge">請檢查</span></div>
+<div class="field-content">
+<textarea id="aiAlias" rows="3"></textarea>
+<button class="refresh-btn" onclick="refreshField('alias')">🔄 重新生成</button>
+</div>
+</div>
+</div>
+
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">產品圖片(F欄) - 原始資料</div>
+<div class="field-content" id="originalImage">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">產品圖片(F欄) - 自動生成</div>
+<div class="field-content">
+<input type="text" id="aiImage" readonly>
+</div>
+</div>
+</div>
+
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">產品圖片說明(G欄) - 原始資料</div>
+<div class="field-content" id="originalImageDesc">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">產品圖片說明(G欄) - 自動生成</div>
+<div class="field-content">
+<input type="text" id="aiImageDesc" readonly>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 產品介紹 (I J K S V X欄) -->
+<div class="section">
+<div class="section-title" onclick="toggleSection(this)">產品介紹</div>
+<div class="section-content">
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">產品介紹(I欄) - 原始資料</div>
+<div class="field-content" id="originalIntroduction">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">產品介紹(I欄) - AI生成<span class="review-badge">請檢查</span></div>
+<div class="field-content">
+<textarea id="aiIntroduction" rows="4" placeholder="AI將生成4-5句英文產品介紹，每句以產品名稱當主詞"></textarea>
+<button class="refresh-btn" onclick="refreshField('introduction')">🔄 重新生成</button>
+</div>
+</div>
+</div>
+
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">產品詳述-第二段以上(J欄) - 原始資料</div>
+<div class="field-content" id="originalDetailedDesc">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">產品詳述-第二段以上(J欄) - AI生成<span class="review-badge">請檢查</span></div>
+<div class="field-content">
+<textarea id="aiDetailedDesc" rows="4" placeholder="AI將生成4-5句英文產品介紹（與I欄內容不重複）"></textarea>
+<button class="refresh-btn" onclick="refreshField('detailedDesc')">🔄 重新生成</button>
+</div>
+</div>
+</div>
+
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">產品特性(K欄) - 原始資料</div>
+<div class="field-content" id="originalFeatures">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">產品特性(K欄) - AI生成<span class="review-badge">請檢查</span></div>
+<div class="field-content">
+<textarea id="aiFeatures" rows="4"></textarea>
+<button class="refresh-btn" onclick="refreshField('features')">🔄 重新生成</button>
+</div>
+</div>
+</div>
+
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">產品規格(S欄) - 原始資料</div>
+<div class="field-content" id="originalSpecs">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">產品規格(S欄) - AI生成<span class="review-badge">請檢查</span></div>
+<div class="field-content">
+<textarea id="aiSpecs" rows="4"></textarea>
+<button class="refresh-btn" onclick="refreshField('specs')">🔄 重新生成</button>
+</div>
+</div>
+</div>
+
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">MOQ / Country of Origin(V欄) - 原始資料</div>
+<div class="field-content" id="originalMOQ">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">MOQ / Country of Origin(V欄) - 預設</div>
+<div class="field-content">
+<input type="text" id="aiMOQ" value="Made in Taiwan" readonly>
+</div>
+</div>
+</div>
+
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">TAG標籤(X欄) - 原始資料</div>
+<div class="field-content" id="originalTags">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">TAG標籤(X欄) - AI生成<span class="review-badge">請檢查</span></div>
+<div class="field-content">
+<textarea id="aiTags" rows="2" placeholder="AI將生成4-5個SEO關鍵字，以逗號連結"></textarea>
+<button class="refresh-btn" onclick="refreshField('tags')">🔄 重新生成</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 多媒體內容 (L欄) -->
+<div class="section">
+<div class="section-title" onclick="toggleSection(this)">多媒體內容</div>
+<div class="section-content">
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">產品詳述(Media1)(L欄) - 原始資料</div>
+<div class="field-content" id="originalMedia1">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">產品詳述(Media1)(L欄) - AI生成<span class="review-badge">請檢查</span></div>
+<div class="field-content">
+<textarea id="aiMedia1" rows="4" placeholder="格式：Media圖片檔名::::bottom::Media標題::Media說明文字"></textarea>
+<button class="refresh-btn" onclick="refreshField('media1')">🔄 重新生成</button>
+</div>
+</div>
+</div>
+
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">產品詳述(Media2)(L欄) - 原始資料</div>
+<div class="field-content" id="originalMedia2">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">產品詳述(Media2)(L欄) - AI生成<span class="review-badge">請檢查</span></div>
+<div class="field-content">
+<textarea id="aiMedia2" rows="4" placeholder="格式：Media圖片檔名::::bottom::Media標題::Media說明文字"></textarea>
+<button class="refresh-btn" onclick="refreshField('media2')">🔄 重新生成</button>
+</div>
+</div>
+</div>
+
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">產品詳述(Media3)(L欄) - 原始資料</div>
+<div class="field-content" id="originalMedia3">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">產品詳述(Media3)(L欄) - AI生成<span class="review-badge">請檢查</span></div>
+<div class="field-content">
+<textarea id="aiMedia3" rows="4" placeholder="格式：Media圖片檔名::::bottom::Media標題::Media說明文字"></textarea>
+<button class="refresh-btn" onclick="refreshField('media3')">🔄 重新生成</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Action Buttons -->
+<div class="action-buttons">
+<button type="button" class="action-btn preview-btn" onclick="previewData()">👁️ 預覽資料</button>
+<button type="button" class="action-btn save-btn" onclick="saveData()">💾 儲存產品</button>
+<button type="button" class="action-btn clear-btn" onclick="clearForm()">🗑️ 清空表單</button>
+</div>
+</div>
+
+<script>
+let isUpdateMode = false;
+let currentProductData = {};
+
+// 頁面載入時初始化
+document.addEventListener('DOMContentLoaded', function() {
+    loadCategoryOptions();
+
+    // 監聽分類選擇變更
+    document.getElementById('categoryId').addEventListener('change', handleCategoryChange);
+
+    // Enter鍵事件處理
+    document.getElementById('productModel').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            const mode = document.getElementById('operationMode').value;
+            if (mode === 'update') {
+                loadExistingProduct();
+            } else {
+                checkProductModel();
+            }
+        }
+    });
+});
+
+// 載入分類選項
+function loadCategoryOptions() {
+    fetch('https://hook.us1.make.com/fwc7i9gmbigm50x48lektmbha2xojohq', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            action: 'get_category_options'
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        const categorySelect = document.getElementById('categoryId');
+        categorySelect.innerHTML = '';
+
+        // 添加預設選項
+        categorySelect.innerHTML = '<option value="">請選擇分類系統ID</option>';
+
+        if (data.success && data.categories) {
+            data.categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categorySelect.appendChild(option);
+            });
+        }
+
+        // 添加新增選項
+        const addOption = document.createElement('option');
+        addOption.value = 'add_new';
+        addOption.textContent = '新增分類系統ID';
+        categorySelect.appendChild(addOption);
+    })
+    .catch(error => {
+        console.error('載入分類選項失敗:', error);
+        document.getElementById('categoryId').innerHTML = '<option value="">載入失敗</option>';
+    });
+}
+
+// 處理分類選擇變更
+function handleCategoryChange() {
+    const categorySelect = document.getElementById('categoryId');
+    const customContainer = document.getElementById('customCategoryContainer');
+
+    if (categorySelect.value === 'add_new') {
+        customContainer.classList.add('show');
+        document.getElementById('customCategoryId').focus();
+    } else {
+        customContainer.classList.remove('show');
+    }
+}
+
+function changeMode() {
+    const mode = document.getElementById('operationMode').value;
+    const checkModelSection = document.getElementById('checkModelSection');
+    const loadDataSection = document.getElementById('loadDataSection');
+    const productModelInput = document.getElementById('productModel');
+
+    if (mode === 'update') {
+        switchToUpdateMode();
+        checkModelSection.style.display = 'none';
+        loadDataSection.style.display = 'block';
+        productModelInput.placeholder = '請輸入要修改的產品型號';
+    } else {
+        switchToNewMode();
+        checkModelSection.style.display = 'block';
+        loadDataSection.style.display = 'none';
+        productModelInput.placeholder = '請輸入產品型號';
+        clearForm();
+    }
+}
+
+function checkProductModel() {
+    const productModel = document.getElementById('productModel').value.trim();
+    if (!productModel) {
+        alert('請輸入產品型號');
+        return;
+    }
+
+    const checkBtn = document.querySelector('#checkModelSection .check-btn');
+    checkBtn.disabled = true;
+    checkBtn.textContent = '檢查中...';
+
+    console.log('發送型號檢查請求到 Make.com:', {
+        action: 'check_product_model',
+        productModel: productModel
+    });
+
+    fetch('https://hook.us1.make.com/fwc7i9gmbigm50x48lektmbha2xojohq', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            action: 'check_product_model',
+            productModel: productModel
+        })
+    })
+    .then(response => {
+        console.log('Response status:', response.status);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return response.text();
+    })
+    .then(rawText => {
+        console.log('Raw response text:', rawText);
+
+        const cleanText = rawText
+            .replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
+            .replace(/\r\n/g, '\\n')
+            .replace(/\r/g, '\\n')
+            .replace(/\n/g, '\\n')
+            .replace(/\t/g, '\\t');
+
+        console.log('Cleaned text:', cleanText);
+
+        try {
+            const data = JSON.parse(cleanText);
+            return data;
+        } catch (parseError) {
+            console.error('JSON 解析錯誤:', parseError);
+            console.log('嘗試手動修復 JSON...');
+
+            const superCleanText = rawText.replace(/[\x00-\x1F\x7F]/g, ' ');
+            const data = JSON.parse(superCleanText);
+            return data;
+        }
+    })
+    .then(data => {
+        console.log('收到的檢查結果:', data);
+
+        if (data.exists) {
+            alert('此產品型號已存在！請使用不同的型號或切換到修改模式。');
+        } else {
+            alert('產品型號可用！');
+        }
+    })
+    .catch(error => {
+        console.error('檢查失敗詳細錯誤:', error);
+
+        if (error.message.includes('JSON')) {
+            alert('資料格式錯誤，請檢查 Make.com 回傳的資料格式。詳細錯誤請查看瀏覽器控制台。');
+        } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
+            alert('網路請求失敗，可能是CORS問題。請檢查瀏覽器控制台查看詳細錯誤。');
+        } else {
+            alert(`檢查失敗: ${error.message}`);
+        }
+    })
+    .finally(() => {
+        checkBtn.disabled = false;
+        checkBtn.textContent = '檢查型號是否重複';
+    });
+}
+
+function loadExistingProduct() {
+    const productModel = document.getElementById('productModel').value.trim();
+    if (!productModel) {
+        alert('請輸入產品型號');
+        return;
+    }
+
+    const loadBtn = document.querySelector('#loadDataSection .check-btn');
+    loadBtn.disabled = true;
+    loadBtn.textContent = '載入中...';
+
+    console.log('發送請求到 Make.com:', {
+        action: 'load',
+        productModel: productModel
+    });
+
+    fetch('https://hook.us1.make.com/fwc7i9gmbigm50x48lektmbha2xojohq', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            action: 'load',
+            productModel: productModel
+        })
+    })
+    .then(response => {
+        console.log('Response status:', response.status);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return response.text();
+    })
+    .then(rawText => {
+        console.log('Raw response text:', rawText);
+
+        const cleanText = rawText
+            .replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
+            .replace(/\r\n/g, '\\n')
+            .replace(/\r/g, '\\n')
+            .replace(/\n/g, '\\n')
+            .replace(/\t/g, '\\t');
+
+        console.log('Cleaned text:', cleanText);
+
+        try {
+            const data = JSON.parse(cleanText);
+            return data;
+        } catch (parseError) {
+            console.error('JSON 解析錯誤:', parseError);
+            console.log('嘗試手動修復 JSON...');
+
+            const superCleanText = rawText.replace(/[\x00-\x1F\x7F]/g, ' ');
+            const data = JSON.parse(superCleanText);
+            return data;
+        }
+    })
+    .then(data => {
+        console.log('收到的資料:', data);
+
+        if (data.success && data.data) {
+            loadExistingData(data.data);
+            alert('產品資料載入成功！');
+        } else {
+            console.log('資料格式問題:', data);
+            alert('找不到此產品型號的資料');
+        }
+    })
+    .catch(error => {
+        console.error('載入失敗詳細錯誤:', error);
+
+        if (error.message.includes('JSON')) {
+            alert('資料格式錯誤，請檢查 Make.com 回傳的資料格式。詳細錯誤請查看瀏覽器控制台。');
+        } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
+            alert('網路請求失敗，可能是CORS問題。請檢查瀏覽器控制台查看詳細錯誤。');
+        } else {
+            alert(`載入失敗: ${error.message}`);
+        }
+    })
+    .finally(() => {
+        loadBtn.disabled = false;
+        loadBtn.textContent = '載入資料';
+    });
+}
+
+function switchToUpdateMode() {
+    isUpdateMode = true;
+    const indicator = document.getElementById('modeIndicator');
+    indicator.textContent = '更新模式';
+    indicator.className = 'mode-indicator mode-update';
+}
+
+function switchToNewMode() {
+    isUpdateMode = false;
+    const indicator = document.getElementById('modeIndicator');
+    indicator.textContent = '新增模式';
+    indicator.className = 'mode-indicator mode-new';
+
+    // 解鎖分類系統ID和產品名稱欄位
+    document.getElementById('categoryId').disabled = false;
+    document.getElementById('customCategoryId').disabled = false;
+    document.getElementById('productName').disabled = false;
+}
+
+function loadExistingData(productData) {
+    // 設定分類系統ID
+    const categorySelect = document.getElementById('categoryId');
+    const categoryValue = productData.categoryId || '';
+
+    // 檢查分類是否存在於選項中
+    let categoryExists = false;
+    for (let option of categorySelect.options) {
+        if (option.value === categoryValue) {
+            categoryExists = true;
+            break;
+        }
+    }
+
+    if (categoryExists) {
+        categorySelect.value = categoryValue;
+    } else if (categoryValue) {
+        // 如果分類不存在，選擇新增選項並填入自訂欄位
+        categorySelect.value = 'add_new';
+        document.getElementById('customCategoryId').value = categoryValue;
+        document.getElementById('customCategoryContainer').classList.add('show');
+    }
+
+    document.getElementById('productName').value = productData.productName || '';
+
+    // 在更新模式下鎖定分類系統ID、自訂分類和產品名稱
+    document.getElementById('categoryId').disabled = true;
+    document.getElementById('customCategoryId').disabled = true;
+    document.getElementById('productName').disabled = true;
+
+    // 載入原始資料 - 調整為OEM系統的欄位
+    document.getElementById('originalSystemId').textContent = productData.systemId || '-';
+    document.getElementById('originalAlias').textContent = productData.alias || '-';
+    document.getElementById('originalImage').textContent = productData.image || '-';
+    document.getElementById('originalImageDesc').textContent = productData.imageDesc || '-';
+    document.getElementById('originalIntroduction').textContent = productData.introduction || '-';
+    document.getElementById('originalDetailedDesc').textContent = productData.detailedDesc || '-';
+    document.getElementById('originalFeatures').textContent = productData.features || '-';
+    document.getElementById('originalMedia1').textContent = productData.media1 || '-';
+    document.getElementById('originalMedia2').textContent = productData.media2 || '-';
+    document.getElementById('originalMedia3').textContent = productData.media3 || '-';
+    document.getElementById('originalSpecs').textContent = productData.specs || '-';
+    document.getElementById('originalMOQ').textContent = productData.moq || '-';
+    document.getElementById('originalTags').textContent = productData.tags || '-';
+
+    // 載入AI欄位 - 調整為OEM系統的欄位
+    document.getElementById('aiSystemId').value = productData.systemId || '';
+    document.getElementById('aiAlias').value = productData.alias || '';
+    document.getElementById('aiImage').value = productData.image || '';
+    document.getElementById('aiImageDesc').value = productData.imageDesc || '';
+    document.getElementById('aiIntroduction').value = productData.introduction || '';
+    document.getElementById('aiDetailedDesc').value = productData.detailedDesc || '';
+    document.getElementById('aiFeatures').value = productData.features || '';
+    document.getElementById('aiMedia1').value = productData.media1 || '';
+    document.getElementById('aiMedia2').value = productData.media2 || '';
+    document.getElementById('aiMedia3').value = productData.media3 || '';
+    document.getElementById('aiSpecs').value = productData.specs || '';
+    document.getElementById('aiMOQ').value = productData.moq || 'Made in Taiwan';
+    document.getElementById('aiTags').value = productData.tags || '';
+
+    currentProductData = productData;
+}
+
+function generateAIContent() {
+    const productModel = document.getElementById('productModel').value.trim();
+    const productName = document.getElementById('productName').value.trim();
+
+    // 取得分類系統ID（考慮自訂輸入）
+    let categoryId;
+    const categorySelect = document.getElementById('categoryId');
+    if (categorySelect.value === 'add_new') {
+        categoryId = document.getElementById('customCategoryId').value.trim();
+    } else {
+        categoryId = categorySelect.value.trim();
+    }
+
+    if (!productModel || !categoryId || !productName) {
+        alert('請填入必填欄位');
+        return;
+    }
+
+    showLoading();
+
+    const requestData = {
+        action: "generate_all",
+        productModel: productModel,
+        categoryId: categoryId,
+        productName: productName
+    };
+
+    const supplierInfo = document.getElementById('supplierInfo').value.trim();
+    if (supplierInfo) {
+        requestData.supplierInfo = supplierInfo;
+    }
+
+    if (isUpdateMode && currentProductData) {
+        requestData.existingData = currentProductData;
+    }
+
+    console.log('發送AI生成請求:', requestData);
+
+    fetch('https://hook.us2.make.com/acmcfkp1qg2l8kzbheuprgbl0tp2dk4v', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+    })
+    .then(response => {
+        console.log('AI Response status:', response.status);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return response.text();
+    })
+    .then(rawText => {
+        console.log('AI Raw response:', rawText);
+
+        const cleanText = rawText
+            .replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
+            .replace(/\r\n/g, '\\n')
+            .replace(/\r/g, '\\n')
+            .replace(/\n/g, '\\n')
+            .replace(/\t/g, '\\t');
+
+        const data = JSON.parse(cleanText);
+        return data;
+    })
+    .then(data => {
+        console.log('AI生成結果:', data);
+
+        if (data.success && data.generated) {
+            fillAIGeneratedContent(data.generated);
+            alert('AI文案生成成功！');
+        } else {
+            alert('AI生成失敗，請稍後再試');
+        }
+    })
+    .catch(error => {
+        console.error('AI生成失敗:', error);
+        alert(`AI生成失敗: ${error.message}`);
+    })
+    .finally(() => {
+        hideLoading();
+    });
+}
+
+function fillAIGeneratedContent(generated) {
+    // 填入OEM系統的欄位
+    if (generated.systemId) document.getElementById('aiSystemId').value = generated.systemId;
+    if (generated.alias) document.getElementById('aiAlias').value = generated.alias;
+    if (generated.image) document.getElementById('aiImage').value = generated.image;
+    if (generated.imageDesc) document.getElementById('aiImageDesc').value = generated.imageDesc;
+    if (generated.introduction) document.getElementById('aiIntroduction').value = generated.introduction;
+    if (generated.detailedDesc) document.getElementById('aiDetailedDesc').value = generated.detailedDesc;
+    if (generated.features) document.getElementById('aiFeatures').value = generated.features;
+    if (generated.media1) document.getElementById('aiMedia1').value = generated.media1;
+    if (generated.media2) document.getElementById('aiMedia2').value = generated.media2;
+    if (generated.media3) document.getElementById('aiMedia3').value = generated.media3;
+    if (generated.specs) document.getElementById('aiSpecs').value = generated.specs;
+    if (generated.tags) document.getElementById('aiTags').value = generated.tags;
+}
+
+function refreshField(fieldName) {
+    const button = event.target;
+    button.disabled = true;
+    button.textContent = '🔄 生成中...';
+
+    const productModel = document.getElementById('productModel').value.trim();
+    const productName = document.getElementById('productName').value.trim();
+
+    if (!productModel || !productName) {
+        alert('請先填入產品型號和產品名稱');
+        button.disabled = false;
+        button.textContent = '🔄 重新生成';
+        return;
+    }
+
+    const requestData = {
+        action: "generate_field",
+        fieldName: fieldName,
+        productModel: productModel,
+        productName: productName
+    };
+
+    const supplierInfo = document.getElementById('supplierInfo').value.trim();
+    if (supplierInfo) {
+        requestData.supplierInfo = supplierInfo;
+    }
+
+    const currentValue = getCurrentFieldValue(fieldName);
+    if (currentValue) {
+        requestData.currentValue = currentValue;
+    }
+
+    if (fieldName.startsWith('media')) {
+        const otherMedias = getOtherMediaContent(fieldName);
+        if (Object.keys(otherMedias).length > 0) {
+            requestData.otherMediaContent = otherMedias;
+        }
+    }
+
+    console.log('個別欄位重新生成請求:', requestData);
+
+    fetch('https://hook.us2.make.com/acmcfkp1qg2l8kzbheuprgbl0tp2dk4v', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
+    })
+    .then(rawText => {
+        const cleanText = rawText
+            .replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
+            .replace(/\r\n/g, '\\n')
+            .replace(/\r/g, '\\n')
+            .replace(/\n/g, '\\n')
+            .replace(/\t/g, '\\t');
+
+        const data = JSON.parse(cleanText);
+        return data;
+    })
+    .then(data => {
+        console.log(`${fieldName} 重新生成結果:`, data);
+
+        if (data.success && data.generated) {
+            updateSpecificField(fieldName, data.generated[fieldName]);
+        } else {
+            alert('重新生成失敗，請稍後再試');
+        }
+    })
+    .catch(error => {
+        console.error('重新生成失敗:', error);
+        alert(`重新生成失敗: ${error.message}`);
+    })
+    .finally(() => {
+        button.disabled = false;
+        button.textContent = '🔄 重新生成';
+    });
+}
+
+function getCurrentFieldValue(fieldName) {
+    // OEM系統的欄位對應
+    const fieldMap = {
+        'alias': 'aiAlias',
+        'introduction': 'aiIntroduction',
+        'detailedDesc': 'aiDetailedDesc',
+        'features': 'aiFeatures',
+        'media1': 'aiMedia1',
+        'media2': 'aiMedia2',
+        'media3': 'aiMedia3',
+        'specs': 'aiSpecs',
+        'tags': 'aiTags'
+    };
+
+    const elementId = fieldMap[fieldName];
+    if (elementId) {
+        const element = document.getElementById(elementId);
+        return element ? element.value : '';
+    }
+    return '';
+}
+
+function getOtherMediaContent(currentFieldName) {
+    const mediaFields = ['media1', 'media2', 'media3'];
+    const otherMedias = mediaFields.filter(field => field !== currentFieldName);
+
+    const otherContent = {};
+    otherMedias.forEach(field => {
+        const content = getCurrentFieldValue(field);
+        if (content) {
+            otherContent[field] = content;
+        }
+    });
+
+    return otherContent;
+}
+
+function updateSpecificField(fieldName, newValue) {
+    // OEM系統的欄位對應
+    const fieldMap = {
+        'alias': 'aiAlias',
+        'introduction': 'aiIntroduction',
+        'detailedDesc': 'aiDetailedDesc',
+        'features': 'aiFeatures',
+        'media1': 'aiMedia1',
+        'media2': 'aiMedia2',
+        'media3': 'aiMedia3',
+        'specs': 'aiSpecs',
+        'tags': 'aiTags'
+    };
+
+    const elementId = fieldMap[fieldName];
+    if (elementId && newValue) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.value = newValue;
+        }
+    }
+}
+
+function showLoading() {
+    document.getElementById('loadingDiv').classList.add('show');
+    document.getElementById('generateBtn').disabled = true;
+    document.getElementById('generateBtn').textContent = '🤖 生成中...';
+}
+
+function hideLoading() {
+    document.getElementById('loadingDiv').classList.remove('show');
+    document.getElementById('generateBtn').disabled = false;
+    document.getElementById('generateBtn').textContent = '🤖 生成AI文案';
+}
+
+function toggleSection(element) {
+    const section = element.parentElement;
+    section.classList.toggle('collapsed');
+}
+
+function previewData() {
+    const data = collectFormData();
+
+    if (!data.productModel || !data.productName) {
+        alert('請至少填入產品型號和產品名稱才能預覽');
+        return;
+    }
+
+    const previewWindow = window.open('', '_blank', 'width=1200,height=800,scrollbars=yes');
+    previewWindow.document.write(generateProductPreviewHTML(data));
+}
+
+function generateProductPreviewHTML(data) {
+    const formatFeatures = (features) => {
+        if (!features) return '';
+
+        const lines = features.split('\n').filter(line => line.trim());
+        return lines.map(line => {
+            const cleanLine = line.replace(/^[-•*]\s*/, '').trim();
+            return `<li>${cleanLine}</li>`;
+        }).join('');
+    };
+
+    const formatSpecs = (specs) => {
+        if (!specs) return '<tr><td colspan="2">規格資訊待更新</td></tr>';
+
+        const lines = specs.split('\n').filter(line => line.trim());
+        let tableRows = '';
+
+        lines.forEach(line => {
+            if (line.includes(':') || line.includes('|')) {
+                const parts = line.split(/[:|]/).map(part => part.trim());
+                if (parts.length >= 2) {
+                    tableRows += `<tr><td style="background: #f5f5f5; font-weight: bold; width: 120px;">${parts[0]}</td><td>${parts[1]}</td></tr>`;
+                }
+            } else if (line.trim()) {
+                tableRows += `<tr><td colspan="2">${line}</td></tr>`;
+            }
+        });
+
+        return tableRows || '<tr><td colspan="2">規格資訊待更新</td></tr>';
+    };
+
+    const parseMediaContent = (mediaData) => {
+        let mediaHTML = '';
+
+        [mediaData.media1, mediaData.media2, mediaData.media3].forEach((media, index) => {
+            if (media && media.trim()) {
+                const parts = media.split('::::');
+
+                if (parts.length >= 2) {
+                    const imageName = parts[0].trim();
+                    const remaining = parts[1];
+
+                    const doubleParts = remaining.split('::');
+
+                    if (doubleParts.length >= 3) {
+                        const position = doubleParts[0].trim();
+                        const title = doubleParts[1].trim();
+                        const content = doubleParts.slice(2).join('::').trim();
+
+                        mediaHTML += `
+                            <div class="media-section">
+                                <h3 class="media-title">${title}</h3>
+                                <div class="media-content">
+                                    ${content.replace(/\n/g, '<br>')}
+                                </div>
+                                <div class="media-image">
+                                    <div class="image-placeholder">
+                                        <span>📷 ${imageName}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        mediaHTML += `
+                            <div class="media-section">
+                                <h3 class="media-title">產品資訊 ${index + 1}</h3>
+                                <div class="media-content">
+                                    ${remaining.replace(/\n/g, '<br>')}
+                                </div>
+                                <div class="media-image">
+                                    <div class="image-placeholder">
+                                        <span>📷 ${imageName}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                } else {
+                    const lines = media.split('\n').filter(line => line.trim());
+                    let title = `產品資訊 ${index + 1}`;
+                    let content = media;
+
+                    if (lines.length > 1 && lines[0].length < 50) {
+                        title = lines[0].trim();
+                        content = lines.slice(1).join('\n');
+                    }
+
+                    mediaHTML += `
+                        <div class="media-section">
+                            <h3 class="media-title">${title}</h3>
+                            <div class="media-content">
+                                ${content.replace(/\n/g, '<br>')}
+                            </div>
+                            <div class="media-image">
+                                <div class="image-placeholder">
+                                    <span>📷 產品圖片 ${index + 1}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        });
+
+        return mediaHTML;
+    };
+
+    return `<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${data.productName} | 產品預覽</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; background: white; }
+        .preview-header { background: linear-gradient(135deg, #7D6E83 0%, #9C8B7A 100%); color: white; padding: 10px 0; text-align: center; font-size: 14px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .product-header { display: flex; gap: 30px; margin-bottom: 30px; }
+        .product-images { flex: 0 0 300px; }
+        .main-image { width: 100%; height: 250px; background: white; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; border-radius: 4px; }
+        .main-image img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .image-placeholder { color: #999; font-size: 16px; }
+        .thumbnail-row { display: flex; gap: 8px; }
+        .thumbnail { width: 60px; height: 60px; border: 1px solid #ddd; background: #f8f9fa; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999; border-radius: 4px; }
+        .product-info { flex: 1; }
+        .product-title { font-size: 24px; color: #333; margin-bottom: 8px; font-weight: normal; }
+        .product-model { color: #666; margin-bottom: 5px; font-size: 14px; }
+        .product-alias { color: #666; margin-bottom: 15px; font-size: 14px; }
+        .description { font-size: 14px; line-height: 1.6; color: #555; margin-bottom: 20px; }
+        .inquire-btn { background: #A4B5A0; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; }
+        .section { margin-bottom: 30px; }
+        .section-title { font-size: 18px; color: #333; margin-bottom: 15px; font-weight: normal; }
+        .features-list { list-style: none; padding: 0; }
+        .features-list li { padding: 8px 0; border-bottom: 1px solid #f0f0f0; position: relative; padding-left: 20px; font-size: 14px; color: #555; }
+        .features-list li::before { content: "●"; position: absolute; left: 0; color: #333; }
+        .specs-table { width: 100%; border-collapse: collapse; border: 1px solid #ddd; font-size: 14px; }
+        .specs-table td { padding: 10px; border: 1px solid #ddd; vertical-align: top; }
+        .media-section { margin-bottom: 40px; border-top: 1px solid #eee; padding-top: 30px; }
+        .media-title { font-size: 18px; color: #333; margin-bottom: 15px; font-weight: normal; }
+        .media-content { font-size: 14px; line-height: 1.6; color: #555; margin-bottom: 20px; }
+        .media-image { text-align: center; margin-bottom: 20px; }
+        .media-image .image-placeholder { width: 100%; max-width: 600px; height: 300px; background: #f8f9fa; border: 2px dashed #ddd; display: flex; align-items: center; justify-content: center; color: #999; font-size: 16px; border-radius: 8px; margin: 0 auto; }
+        .close-button { position: fixed; top: 20px; right: 20px; background: #7D6E83; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-size: 12px; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .close-button:hover { background: #6A5B6F; }
+        .moq-info { font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 20px; }
+        @media (max-width: 768px) { .product-header { flex-direction: column; gap: 20px; } .product-images { flex: none; } .container { padding: 15px; } }
+    </style>
+</head>
+<body>
+    <div class="preview-header">產品頁面預覽 - 模擬正式網站呈現效果</div>
+    <button class="close-button" onclick="window.close()">關閉</button>
+    <div class="container">
+        <div class="product-header">
+            <div class="product-images">
+                <div class="main-image">
+                    ${data.image ? `<img src="${data.image}" alt="${data.productName}">` : `<div class="image-placeholder">產品主圖</div>`}
+                </div>
+                <div class="thumbnail-row">
+                    <div class="thumbnail">圖1</div>
+                    <div class="thumbnail">圖2</div>
+                    <div class="thumbnail">圖3</div>
+                    <div class="thumbnail">圖4</div>
+                </div>
+            </div>
+            <div class="product-info">
+                <h1 class="product-title">${data.productName || '產品名稱待設定'}</h1>
+                <div class="product-model">${data.productModel || '產品型號待設定'}</div>
+                ${data.alias ? `<div class="product-alias">${data.alias}</div>` : ''}
+                ${data.introduction ? `<div class="description">${data.introduction.replace(/\n/g, '<br>')}</div>` : ''}
+                <button class="inquire-btn">INQUIRE NOW</button>
+            </div>
+        </div>
+        ${data.detailedDesc ? `<div class="section"><h2 class="section-title">Product Details</h2><div class="description">${data.detailedDesc.replace(/\n/g, '<br>')}</div></div>` : ''}
+        ${data.features ? `<div class="section"><h2 class="section-title">Features</h2><ul class="features-list">${formatFeatures(data.features)}</ul></div>` : ''}
+        ${data.specs ? `<div class="section"><h2 class="section-title">Specification</h2><table class="specs-table">${formatSpecs(data.specs)}</table></div>` : ''}
+        ${data.moq ? `<div class="section"><h2 class="section-title">MOQ / Country of Origin</h2><div class="moq-info">${data.moq}</div></div>` : ''}
+        ${parseMediaContent(data)}
+    </div>
+</body>
+</html>`;
+}
+
+function collectFormData() {
+    // 取得分類系統ID（考慮自訂輸入）
+    let categoryId;
+    const categorySelect = document.getElementById('categoryId');
+    if (categorySelect.value === 'add_new') {
+        categoryId = document.getElementById('customCategoryId').value.trim();
+    } else {
+        categoryId = categorySelect.value.trim();
+    }
+
+    return {
+        productModel: document.getElementById('productModel').value.trim(),
+        categoryId: categoryId,
+        productName: document.getElementById('productName').value.trim(),
+        supplierInfo: document.getElementById('supplierInfo').value.trim(),
+        systemId: document.getElementById('aiSystemId').value,
+        alias: document.getElementById('aiAlias').value,
+        image: document.getElementById('aiImage').value,
+        imageDesc: document.getElementById('aiImageDesc').value,
+        introduction: document.getElementById('aiIntroduction').value,
+        detailedDesc: document.getElementById('aiDetailedDesc').value,
+        features: document.getElementById('aiFeatures').value,
+        media1: document.getElementById('aiMedia1').value,
+        media2: document.getElementById('aiMedia2').value,
+        media3: document.getElementById('aiMedia3').value,
+        specs: document.getElementById('aiSpecs').value,
+        moq: document.getElementById('aiMOQ').value,
+        tags: document.getElementById('aiTags').value
+    };
+}
+
+function saveData() {
+    const data = collectFormData();
+
+    if (!data.productModel || !data.categoryId || !data.productName) {
+        alert('請填入所有必填欄位');
+        return;
+    }
+
+    const action = isUpdateMode ? '更新' : '新增';
+    if (!confirm(`確定要${action}此產品資料嗎？`)) {
+        return;
+    }
+
+    const saveData = {
+        action: isUpdateMode ? "update_product" : "save_product",
+        mode: isUpdateMode ? "update" : "new",  
+        productModel: data.productModel,
+        categoryId: data.categoryId,
+        productName: data.productName,
+        supplierInfo: data.supplierInfo,
+        systemId: data.systemId,
+        alias: data.alias,
+        image: data.image,
+        imageDesc: data.imageDesc,
+        introduction: data.introduction,
+        detailedDesc: data.detailedDesc,
+        features: data.features,
+        media1: data.media1,
+        media2: data.media2,
+        media3: data.media3,
+        specs: data.specs,
+        moq: data.moq,
+        tags: data.tags
+    };
+
+    console.log('儲存資料到Make.com:', saveData);
+
+    const saveBtn = document.querySelector('.save-btn');
+    const originalText = saveBtn.textContent;
+    saveBtn.disabled = true;
+    saveBtn.textContent = '儲存中...';
+
+    fetch('https://hook.us2.make.com/uzlh920e2ejv3faagi2q618vfte50yhj', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(saveData)
+    })
+    .then(response => {
+        console.log('Save response status:', response.status);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return response.text();
+    })
+    .then(rawText => {
+        console.log('Save response:', rawText);
+
+        const cleanText = rawText
+            .replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
+            .replace(/\r\n/g, '\\n')
+            .replace(/\r/g, '\\n')
+            .replace(/\n/g, '\\n')
+            .replace(/\t/g, '\\t');
+
+        const result = JSON.parse(cleanText);
+        return result;
+    })
+    .then(result => {
+        if (result.success) {
+            alert(`產品資料已${action}成功！`);
+
+            if (isUpdateMode) {
+                if (confirm('是否要清空表單以修改下一個產品？')) {
+                    clearForm();
+                }
+            } else {
+                if (confirm('是否要清空表單以新增下一個產品？')) {
+                    clearForm();
+                }
+            }
+        } else {
+            alert(`儲存失敗: ${result.message || '未知錯誤'}`);
+        }
+    })
+    .catch(error => {
+        console.error('儲存失敗:', error);
+        alert(`儲存失敗: ${error.message}`);
+    })
+    .finally(() => {
+        saveBtn.disabled = false;
+        saveBtn.textContent = originalText;
+    });
+}
+
+function clearForm() {
+    if (!confirm('確定要清空所有資料嗎？此操作無法復原。')) {
+        return;
+    }
+
+    // 清空基本欄位
+    document.getElementById('productModel').value = '';
+    document.getElementById('productName').value = '';
+    document.getElementById('supplierInfo').value = '';
+
+    // 重設分類選擇
+    const categorySelect = document.getElementById('categoryId');
+    categorySelect.value = '';
+    document.getElementById('customCategoryId').value = '';
+    document.getElementById('customCategoryContainer').classList.remove('show');
+
+    // 清空AI欄位
+    const aiFields = [
+        'aiSystemId', 'aiAlias', 'aiImage', 'aiImageDesc', 
+        'aiIntroduction', 'aiDetailedDesc', 'aiFeatures',
+        'aiMedia1', 'aiMedia2', 'aiMedia3', 'aiSpecs', 'aiTags'
+    ];
+
+    aiFields.forEach(field => {
+        const element = document.getElementById(field);
+        if (element) {
+            element.value = '';
+        }
+    });
+
+    // 重設MOQ為預設值
+    document.getElementById('aiMOQ').value = 'Made in Taiwan';
+
+    // 清空原始資料
+    const originalFields = [
+        'originalSystemId', 'originalAlias', 'originalImage', 'originalImageDesc',
+        'originalIntroduction', 'originalDetailedDesc', 'originalFeatures',
+        'originalMedia1', 'originalMedia2', 'originalMedia3', 'originalSpecs', 'originalMOQ', 'originalTags'
+    ];
+
+    originalFields.forEach(field => {
+        const element = document.getElementById(field);
+        if (element) {
+            element.textContent = '-';
+        }
+    });
+
+    // 清空當前產品資料
+    currentProductData = {};
+
+    // 根據當前模式決定後續行為
+    if (isUpdateMode) {
+        // 修改模式下清空後，解鎖相關欄位以便載入新產品
+        document.getElementById('categoryId').disabled = false;
+        document.getElementById('customCategoryId').disabled = false;
+        document.getElementById('productName').disabled = false;
+        
+        // 清空產品型號以便輸入新的型號
+        document.getElementById('productModel').value = '';
+    }
+    
+    // 重新載入分類選項
+    loadCategoryOptions();
+}
+</script>
+</body>
+</html>
