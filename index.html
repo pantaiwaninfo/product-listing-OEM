@@ -1003,7 +1003,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 載入分類選項
 function loadCategoryOptions() {
-    fetch('https://hook.us2.make.com/fqq8b8852xh57vgk0bp9p7wp7vaiof9n', {
+    fetch('https://hook.us1.make.com/fwc7i9gmbigm50x48lektmbha2xojohq', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -1090,7 +1090,7 @@ function checkProductModel() {
         productModel: productModel
     });
 
-    fetch('https://hook.us2.make.com/fqq8b8852xh57vgk0bp9p7wp7vaiof9n', {
+    fetch('https://hook.us1.make.com/fwc7i9gmbigm50x48lektmbha2xojohq', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -1175,7 +1175,7 @@ function loadExistingProduct() {
         productModel: productModel
     });
 
-    fetch('https://hook.us2.make.com/fqq8b8852xh57vgk0bp9p7wp7vaiof9n', {
+    fetch('https://hook.us1.make.com/fwc7i9gmbigm50x48lektmbha2xojohq', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -1466,6 +1466,14 @@ function refreshField(fieldName) {
         const otherMedias = getOtherMediaContent(fieldName);
         if (Object.keys(otherMedias).length > 0) {
             requestData.otherMediaContent = otherMedias;
+        }
+    }
+
+    // 如果是重新生成J欄(detailedDesc)，同時傳送I欄(introduction)的資料
+    if (fieldName === 'detailedDesc') {
+        const introductionValue = getCurrentFieldValue('introduction');
+        if (introductionValue) {
+            requestData.introductionReference = introductionValue;
         }
     }
 
