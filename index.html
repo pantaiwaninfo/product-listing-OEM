@@ -621,6 +621,60 @@ from { opacity: 0; transform: translateY(20px); }
 to { opacity: 1; transform: translateY(0); }
 }
 
+/* 新增的客製化提示輸入框樣式 */
+.custom-prompt {
+margin-top: 12px;
+}
+
+.custom-prompt-container {
+position: relative;
+margin-top: 12px;
+margin-bottom: 12px;
+border: 2px solid #D4A574;
+padding: 12px;
+border-radius: 10px;
+background-color: rgba(255, 246, 235, 0.5);
+}
+
+.prompt-label {
+position: absolute;
+top: -10px;
+left: 15px;
+background: #FFFFFF;
+padding: 0 8px;
+color: #D4A574;
+font-weight: 700;
+font-size: 12px;
+border-radius: 4px;
+box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.custom-prompt textarea {
+width: 100%;
+padding: 10px 15px;
+border: 1px solid #E8D7C3;
+border-radius: 8px;
+font-size: 13px;
+transition: all 0.3s ease;
+background: rgba(255, 255, 255, 0.9);
+min-height: 60px;
+resize: vertical;
+font-family: inherit;
+}
+
+.custom-prompt textarea:focus {
+border-color: #D4A574;
+box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.2);
+outline: none;
+}
+
+.custom-prompt .help-text {
+font-size: 11px;
+color: #9C8B7A;
+margin-top: 5px;
+font-style: italic;
+}
+
 @media (max-width: 768px) {
 .container {
 padding: 15px;
@@ -844,6 +898,15 @@ background: linear-gradient(135deg, #6A5B6F 0%, #897A67 100%);
 <div class="field-header">產品介紹(I欄) - AI生成<span class="review-badge">請檢查</span></div>
 <div class="field-content">
 <textarea id="aiIntroduction" rows="4" placeholder="AI將生成4-5句英文產品介紹，每句以產品名稱當主詞"></textarea>
+
+<!-- 產品介紹的提示輸入框 -->
+<div class="custom-prompt-container">
+    <div class="prompt-label">AI提示詞</div>
+    <div class="custom-prompt">
+        <textarea id="introductionPrompt" rows="3" placeholder="請輸入自訂提示以指導AI生成產品介紹"></textarea>
+        <div class="help-text">例如：強調產品耐用度、特殊功能、獨特材質、行業應用場景等</div>
+    </div>
+</div>
 <button class="refresh-btn" onclick="refreshField('introduction')">🔄 重新生成</button>
 </div>
 </div>
@@ -858,6 +921,15 @@ background: linear-gradient(135deg, #6A5B6F 0%, #897A67 100%);
 <div class="field-header">產品詳述-第二段以上(J欄) - AI生成<span class="review-badge">請檢查</span></div>
 <div class="field-content">
 <textarea id="aiDetailedDesc" rows="4" placeholder="AI將生成4-5句英文產品介紹（與I欄內容不重複）"></textarea>
+
+<!-- 產品詳述的提示輸入框 -->
+<div class="custom-prompt-container">
+    <div class="prompt-label">AI提示詞</div>
+    <div class="custom-prompt">
+        <textarea id="detailedDescPrompt" rows="3" placeholder="請輸入自訂提示以指導AI生成產品詳述"></textarea>
+        <div class="help-text">例如：詳述產品性能參數、優勢與同類產品比較、使用案例等</div>
+    </div>
+</div>
 <button class="refresh-btn" onclick="refreshField('detailedDesc')">🔄 重新生成</button>
 </div>
 </div>
@@ -1360,6 +1432,18 @@ function generateAIContent() {
         requestData.supplierInfo = supplierInfo;
     }
 
+    // 獲取自訂提示 (如果有)
+    const introductionPrompt = document.getElementById('introductionPrompt').value.trim();
+    if (introductionPrompt) {
+        requestData.introductionPrompt = introductionPrompt;
+    }
+    
+    // 獲取詳述提示詞 (如果有)
+    const detailedDescPrompt = document.getElementById('detailedDescPrompt').value.trim();
+    if (detailedDescPrompt) {
+        requestData.detailedDescPrompt = detailedDescPrompt;
+    }
+
     if (isUpdateMode && currentProductData) {
         requestData.existingData = currentProductData;
     }
@@ -1451,6 +1535,19 @@ function refreshField(fieldName) {
         productModel: productModel,
         productName: productName
     };
+
+    // 獲取自訂提示 (如果有，根據欄位選擇不同提示輸入框)
+    if (fieldName === 'introduction') {
+        const introductionPrompt = document.getElementById('introductionPrompt').value.trim();
+        if (introductionPrompt) {
+            requestData.customPrompt = introductionPrompt;
+        }
+    } else if (fieldName === 'detailedDesc') {
+        const detailedDescPrompt = document.getElementById('detailedDescPrompt').value.trim();
+        if (detailedDescPrompt) {
+            requestData.customPrompt = detailedDescPrompt;
+        }
+    }
 
     const supplierInfo = document.getElementById('supplierInfo').value.trim();
     if (supplierInfo) {
@@ -1932,6 +2029,8 @@ function clearForm() {
     document.getElementById('productModel').value = '';
     document.getElementById('productName').value = '';
     document.getElementById('supplierInfo').value = '';
+    document.getElementById('introductionPrompt').value = ''; // 清空提示輸入框
+    document.getElementById('detailedDescPrompt').value = ''; // 清空詳述提示輸入框
 
     // 重設分類選擇
     const categorySelect = document.getElementById('categoryId');
