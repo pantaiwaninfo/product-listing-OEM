@@ -756,7 +756,7 @@ background: linear-gradient(135deg, #6A5B6F 0%, #897A67 100%);
 <div class="header">
 <h1>🏭 OEM官網產品上架及維護管理系統</h1>
 <div class="mode-selector">
-<label for="operationMode">操作模式：</label>
+<label for="operationMode">操作模式:</label>
 <select id="operationMode" onchange="changeMode()">
 <option value="new">新增產品</option>
 <option value="update">修改產品</option>
@@ -801,7 +801,7 @@ background: linear-gradient(135deg, #6A5B6F 0%, #897A67 100%);
 <div class="form-row">
 <div class="form-group">
 <label for="supplierInfo">廠商資料</label>
-<textarea id="supplierInfo" rows="3" placeholder="非必填，供AI參考"></textarea>
+<textarea id="supplierInfo" rows="3" placeholder="非必填,供AI參考"></textarea>
 <div class="help-text">可提供廠商的產品規格、特色說明等資料</div>
 </div>
 </div>
@@ -815,7 +815,7 @@ background: linear-gradient(135deg, #6A5B6F 0%, #897A67 100%);
 <div class="loading" id="loadingDiv">
 <div class="loading-content">
 <span class="spinner">🤖</span>
-<span>AI 正在為您生成精彩內容，請稍候...</span>
+<span>AI 正在為您生成精彩內容,請稍候...</span>
 </div>
 </div>
 
@@ -823,10 +823,10 @@ background: linear-gradient(135deg, #6A5B6F 0%, #897A67 100%);
 <div class="ai-content fade-in" id="aiContent">
 <h2>🤖 AI生成內容</h2>
 <div class="warning-text">
-⚠️ 以下內容由AI生成，請仔細確認並修改後再儲存
+⚠️ 以下內容由AI生成,請仔細確認並修改後再儲存
 </div>
 
-<!-- 基本資訊 (A E F G欄) -->
+<!-- 基本資訊 (A E F G H欄) -->
 <div class="section">
 <div class="section-title" onclick="toggleSection(this)">基本資訊</div>
 <div class="section-content">
@@ -882,10 +882,23 @@ background: linear-gradient(135deg, #6A5B6F 0%, #897A67 100%);
 </div>
 </div>
 </div>
+
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">產品左上輪播圖片(H欄) - 原始資料</div>
+<div class="field-content" id="originalCarouselImage">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">產品左上輪播圖片(H欄)</div>
+<div class="field-content">
+<input type="text" id="aiCarouselImage">
+</div>
+</div>
+</div>
 </div>
 </div>
 
-<!-- 產品介紹 (I J K S V X欄) -->
+<!-- 產品介紹 (I J K M N P Q R S V X Y欄) -->
 <div class="section">
 <div class="section-title" onclick="toggleSection(this)">產品介紹</div>
 <div class="section-content">
@@ -897,14 +910,14 @@ background: linear-gradient(135deg, #6A5B6F 0%, #897A67 100%);
 <div class="ai-data">
 <div class="field-header">產品介紹(I欄) - AI生成<span class="review-badge">請檢查</span></div>
 <div class="field-content">
-<textarea id="aiIntroduction" rows="4" placeholder="AI將生成4-5句英文產品介紹，每句以產品名稱當主詞"></textarea>
+<textarea id="aiIntroduction" rows="4" placeholder="AI將生成4-5句英文產品介紹,每句以產品名稱當主詞"></textarea>
 
 <!-- 產品介紹的提示輸入框 -->
 <div class="custom-prompt-container">
     <div class="prompt-label">AI提示詞</div>
     <div class="custom-prompt">
         <textarea id="introductionPrompt" rows="3" placeholder="請輸入自訂提示以指導AI生成產品介紹"></textarea>
-        <div class="help-text">例如：強調產品耐用度、特殊功能、獨特材質、行業應用場景等</div>
+        <div class="help-text">例如:強調產品耐用度、特殊功能、獨特材質、行業應用場景等</div>
     </div>
 </div>
 <button class="refresh-btn" onclick="refreshField('introduction')">🔄 重新生成</button>
@@ -920,14 +933,14 @@ background: linear-gradient(135deg, #6A5B6F 0%, #897A67 100%);
 <div class="ai-data">
 <div class="field-header">產品詳述-第二段以上(J欄) - AI生成<span class="review-badge">請檢查</span></div>
 <div class="field-content">
-<textarea id="aiDetailedDesc" rows="4" placeholder="AI將生成4-5句英文產品介紹（與I欄內容不重複）"></textarea>
+<textarea id="aiDetailedDesc" rows="4" placeholder="AI將生成4-5句英文產品介紹(與I欄內容不重複)"></textarea>
 
 <!-- 產品詳述的提示輸入框 -->
 <div class="custom-prompt-container">
     <div class="prompt-label">AI提示詞</div>
     <div class="custom-prompt">
         <textarea id="detailedDescPrompt" rows="3" placeholder="請輸入自訂提示以指導AI生成產品詳述"></textarea>
-        <div class="help-text">例如：詳述產品性能參數、優勢與同類產品比較、使用案例等</div>
+        <div class="help-text">例如:詳述產品性能參數、優勢與同類產品比較、使用案例等</div>
     </div>
 </div>
 <button class="refresh-btn" onclick="refreshField('detailedDesc')">🔄 重新生成</button>
@@ -945,6 +958,71 @@ background: linear-gradient(135deg, #6A5B6F 0%, #897A67 100%);
 <div class="field-content">
 <textarea id="aiFeatures" rows="4"></textarea>
 <button class="refresh-btn" onclick="refreshField('features')">🔄 重新生成</button>
+</div>
+</div>
+</div>
+
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">產品詳述;條列式(第二張之後)(M欄) - 原始資料</div>
+<div class="field-content" id="originalDetailedDescList">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">產品詳述;條列式(第二張之後)(M欄)</div>
+<div class="field-content">
+<textarea id="aiDetailedDescList" rows="4"></textarea>
+</div>
+</div>
+</div>
+
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">產品詳述(media)_01(N欄) - 原始資料</div>
+<div class="field-content" id="originalMediaDesc01">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">產品詳述(media)_01(N欄)</div>
+<div class="field-content">
+<textarea id="aiMediaDesc01" rows="4"></textarea>
+</div>
+</div>
+</div>
+
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">產品詳述01;條列式(P欄) - 原始資料</div>
+<div class="field-content" id="originalDetailedDesc01List">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">產品詳述01;條列式(P欄)</div>
+<div class="field-content">
+<textarea id="aiDetailedDesc01List" rows="4"></textarea>
+</div>
+</div>
+</div>
+
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">產品詳述01;純文字(Q欄) - 原始資料</div>
+<div class="field-content" id="originalDetailedDesc01Text">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">產品詳述01;純文字(Q欄)</div>
+<div class="field-content">
+<textarea id="aiDetailedDesc01Text" rows="4"></textarea>
+</div>
+</div>
+</div>
+
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">製成應用(R欄) - 原始資料</div>
+<div class="field-content" id="originalApplication">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">製成應用(R欄)</div>
+<div class="field-content">
+<textarea id="aiApplication" rows="4"></textarea>
 </div>
 </div>
 </div>
@@ -984,8 +1062,21 @@ background: linear-gradient(135deg, #6A5B6F 0%, #897A67 100%);
 <div class="ai-data">
 <div class="field-header">TAG標籤(X欄) - AI生成<span class="review-badge">請檢查</span></div>
 <div class="field-content">
-<textarea id="aiTags" rows="2" placeholder="AI將生成4-5個SEO關鍵字，以逗號連結"></textarea>
+<textarea id="aiTags" rows="2" placeholder="AI將生成4-5個SEO關鍵字,以逗號連結"></textarea>
 <button class="refresh-btn" onclick="refreshField('tags')">🔄 重新生成</button>
+</div>
+</div>
+</div>
+
+<div class="field-row">
+<div class="original-data">
+<div class="field-header">關聯產品系統ID(Y欄) - 原始資料</div>
+<div class="field-content" id="originalRelatedProducts">-</div>
+</div>
+<div class="ai-data">
+<div class="field-header">關聯產品系統ID(Y欄)</div>
+<div class="field-content">
+<input type="text" id="aiRelatedProducts">
 </div>
 </div>
 </div>
@@ -1004,7 +1095,7 @@ background: linear-gradient(135deg, #6A5B6F 0%, #897A67 100%);
 <div class="ai-data">
 <div class="field-header">產品詳述(Media1)(L欄) - AI生成<span class="review-badge">請檢查</span></div>
 <div class="field-content">
-<textarea id="aiMedia1" rows="4" placeholder="格式：Media圖片檔名::::bottom::Media標題::Media說明文字"></textarea>
+<textarea id="aiMedia1" rows="4" placeholder="格式:Media圖片檔名::::bottom::Media標題::Media說明文字"></textarea>
 <button class="refresh-btn" onclick="refreshField('media1')">🔄 重新生成</button>
 </div>
 </div>
@@ -1018,7 +1109,7 @@ background: linear-gradient(135deg, #6A5B6F 0%, #897A67 100%);
 <div class="ai-data">
 <div class="field-header">產品詳述(Media2)(L欄) - AI生成<span class="review-badge">請檢查</span></div>
 <div class="field-content">
-<textarea id="aiMedia2" rows="4" placeholder="格式：Media圖片檔名::::bottom::Media標題::Media說明文字"></textarea>
+<textarea id="aiMedia2" rows="4" placeholder="格式:Media圖片檔名::::bottom::Media標題::Media說明文字"></textarea>
 <button class="refresh-btn" onclick="refreshField('media2')">🔄 重新生成</button>
 </div>
 </div>
@@ -1032,7 +1123,7 @@ background: linear-gradient(135deg, #6A5B6F 0%, #897A67 100%);
 <div class="ai-data">
 <div class="field-header">產品詳述(Media3)(L欄) - AI生成<span class="review-badge">請檢查</span></div>
 <div class="field-content">
-<textarea id="aiMedia3" rows="4" placeholder="格式：Media圖片檔名::::bottom::Media標題::Media說明文字"></textarea>
+<textarea id="aiMedia3" rows="4" placeholder="格式:Media圖片檔名::::bottom::Media標題::Media說明文字"></textarea>
 <button class="refresh-btn" onclick="refreshField('media3')">🔄 重新生成</button>
 </div>
 </div>
@@ -1209,18 +1300,18 @@ function checkProductModel() {
         console.log('收到的檢查結果:', data);
 
         if (data.exists) {
-            alert('此產品型號已存在！請使用不同的型號或切換到修改模式。');
+            alert('此產品型號已存在!請使用不同的型號或切換到修改模式。');
         } else {
-            alert('產品型號可用！');
+            alert('產品型號可用!');
         }
     })
     .catch(error => {
         console.error('檢查失敗詳細錯誤:', error);
 
         if (error.message.includes('JSON')) {
-            alert('資料格式錯誤，請檢查 Make.com 回傳的資料格式。詳細錯誤請查看瀏覽器控制台。');
+            alert('資料格式錯誤,請檢查 Make.com 回傳的資料格式。詳細錯誤請查看瀏覽器控制台。');
         } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
-            alert('網路請求失敗，可能是CORS問題。請檢查瀏覽器控制台查看詳細錯誤。');
+            alert('網路請求失敗,可能是CORS問題。請檢查瀏覽器控制台查看詳細錯誤。');
         } else {
             alert(`檢查失敗: ${error.message}`);
         }
@@ -1295,7 +1386,7 @@ function loadExistingProduct() {
 
         if (data.success && data.data) {
             loadExistingData(data.data);
-            alert('產品資料載入成功！');
+            alert('產品資料載入成功!');
         } else {
             console.log('資料格式問題:', data);
             alert('找不到此產品型號的資料');
@@ -1305,9 +1396,9 @@ function loadExistingProduct() {
         console.error('載入失敗詳細錯誤:', error);
 
         if (error.message.includes('JSON')) {
-            alert('資料格式錯誤，請檢查 Make.com 回傳的資料格式。詳細錯誤請查看瀏覽器控制台。');
+            alert('資料格式錯誤,請檢查 Make.com 回傳的資料格式。詳細錯誤請查看瀏覽器控制台。');
         } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
-            alert('網路請求失敗，可能是CORS問題。請檢查瀏覽器控制台查看詳細錯誤。');
+            alert('網路請求失敗,可能是CORS問題。請檢查瀏覽器控制台查看詳細錯誤。');
         } else {
             alert(`載入失敗: ${error.message}`);
         }
@@ -1354,7 +1445,7 @@ function loadExistingData(productData) {
     if (categoryExists) {
         categorySelect.value = categoryValue;
     } else if (categoryValue) {
-        // 如果分類不存在，選擇新增選項並填入自訂欄位
+        // 如果分類不存在,選擇新增選項並填入自訂欄位
         categorySelect.value = 'add_new';
         document.getElementById('customCategoryId').value = categoryValue;
         document.getElementById('customCategoryContainer').classList.add('show');
@@ -1367,35 +1458,49 @@ function loadExistingData(productData) {
     document.getElementById('customCategoryId').disabled = true;
     document.getElementById('productName').disabled = true;
 
-    // 載入原始資料 - 調整為OEM系統的欄位
+    // 載入原始資料 - 包含新增的欄位
     document.getElementById('originalSystemId').textContent = productData.systemId || '-';
     document.getElementById('originalAlias').textContent = productData.alias || '-';
     document.getElementById('originalImage').textContent = productData.image || '-';
     document.getElementById('originalImageDesc').textContent = productData.imageDesc || '-';
+    document.getElementById('originalCarouselImage').textContent = productData.carouselImage || '-';
     document.getElementById('originalIntroduction').textContent = productData.introduction || '-';
     document.getElementById('originalDetailedDesc').textContent = productData.detailedDesc || '-';
     document.getElementById('originalFeatures').textContent = productData.features || '-';
+    document.getElementById('originalDetailedDescList').textContent = productData.detailedDescList || '-';
+    document.getElementById('originalMediaDesc01').textContent = productData.mediaDesc01 || '-';
+    document.getElementById('originalDetailedDesc01List').textContent = productData.detailedDesc01List || '-';
+    document.getElementById('originalDetailedDesc01Text').textContent = productData.detailedDesc01Text || '-';
+    document.getElementById('originalApplication').textContent = productData.application || '-';
     document.getElementById('originalMedia1').textContent = productData.media1 || '-';
     document.getElementById('originalMedia2').textContent = productData.media2 || '-';
     document.getElementById('originalMedia3').textContent = productData.media3 || '-';
     document.getElementById('originalSpecs').textContent = productData.specs || '-';
     document.getElementById('originalMOQ').textContent = productData.moq || '-';
     document.getElementById('originalTags').textContent = productData.tags || '-';
+    document.getElementById('originalRelatedProducts').textContent = productData.relatedProducts || '-';
 
-    // 載入AI欄位 - 調整為OEM系統的欄位
+    // 載入AI欄位 - 包含新增的欄位
     document.getElementById('aiSystemId').value = productData.systemId || '';
     document.getElementById('aiAlias').value = productData.alias || '';
     document.getElementById('aiImage').value = productData.image || '';
     document.getElementById('aiImageDesc').value = productData.imageDesc || '';
+    document.getElementById('aiCarouselImage').value = productData.carouselImage || '';
     document.getElementById('aiIntroduction').value = productData.introduction || '';
     document.getElementById('aiDetailedDesc').value = productData.detailedDesc || '';
     document.getElementById('aiFeatures').value = productData.features || '';
+    document.getElementById('aiDetailedDescList').value = productData.detailedDescList || '';
+    document.getElementById('aiMediaDesc01').value = productData.mediaDesc01 || '';
+    document.getElementById('aiDetailedDesc01List').value = productData.detailedDesc01List || '';
+    document.getElementById('aiDetailedDesc01Text').value = productData.detailedDesc01Text || '';
+    document.getElementById('aiApplication').value = productData.application || '';
     document.getElementById('aiMedia1').value = productData.media1 || '';
     document.getElementById('aiMedia2').value = productData.media2 || '';
     document.getElementById('aiMedia3').value = productData.media3 || '';
     document.getElementById('aiSpecs').value = productData.specs || '';
     document.getElementById('aiMOQ').value = productData.moq || 'Made in Taiwan';
     document.getElementById('aiTags').value = productData.tags || '';
+    document.getElementById('aiRelatedProducts').value = productData.relatedProducts || '';
 
     currentProductData = productData;
 }
@@ -1404,7 +1509,7 @@ function generateAIContent() {
     const productModel = document.getElementById('productModel').value.trim();
     const productName = document.getElementById('productName').value.trim();
 
-    // 取得分類系統ID（考慮自訂輸入）
+    // 取得分類系統ID(考慮自訂輸入)
     let categoryId;
     const categorySelect = document.getElementById('categoryId');
     if (categorySelect.value === 'add_new') {
@@ -1484,9 +1589,9 @@ function generateAIContent() {
 
         if (data.success && data.generated) {
             fillAIGeneratedContent(data.generated);
-            alert('AI文案生成成功！');
+            alert('AI文案生成成功!');
         } else {
-            alert('AI生成失敗，請稍後再試');
+            alert('AI生成失敗,請稍後再試');
         }
     })
     .catch(error => {
@@ -1536,7 +1641,7 @@ function refreshField(fieldName) {
         productName: productName
     };
 
-    // 獲取自訂提示 (如果有，根據欄位選擇不同提示輸入框)
+    // 獲取自訂提示 (如果有,根據欄位選擇不同提示輸入框)
     if (fieldName === 'introduction') {
         const introductionPrompt = document.getElementById('introductionPrompt').value.trim();
         if (introductionPrompt) {
@@ -1566,7 +1671,7 @@ function refreshField(fieldName) {
         }
     }
 
-    // 如果是重新生成J欄(detailedDesc)，同時傳送I欄(introduction)的資料
+    // 如果是重新生成J欄(detailedDesc),同時傳送I欄(introduction)的資料
     if (fieldName === 'detailedDesc') {
         const introductionValue = getCurrentFieldValue('introduction');
         if (introductionValue) {
@@ -1606,7 +1711,7 @@ function refreshField(fieldName) {
         if (data.success && data.generated) {
             updateSpecificField(fieldName, data.generated[fieldName]);
         } else {
-            alert('重新生成失敗，請稍後再試');
+            alert('重新生成失敗,請稍後再試');
         }
     })
     .catch(error => {
@@ -1892,7 +1997,7 @@ function generateProductPreviewHTML(data) {
 }
 
 function collectFormData() {
-    // 取得分類系統ID（考慮自訂輸入）
+    // 取得分類系統ID(考慮自訂輸入)
     let categoryId;
     const categorySelect = document.getElementById('categoryId');
     if (categorySelect.value === 'add_new') {
@@ -1910,15 +2015,22 @@ function collectFormData() {
         alias: document.getElementById('aiAlias').value,
         image: document.getElementById('aiImage').value,
         imageDesc: document.getElementById('aiImageDesc').value,
+        carouselImage: document.getElementById('aiCarouselImage').value,
         introduction: document.getElementById('aiIntroduction').value,
         detailedDesc: document.getElementById('aiDetailedDesc').value,
         features: document.getElementById('aiFeatures').value,
+        detailedDescList: document.getElementById('aiDetailedDescList').value,
+        mediaDesc01: document.getElementById('aiMediaDesc01').value,
+        detailedDesc01List: document.getElementById('aiDetailedDesc01List').value,
+        detailedDesc01Text: document.getElementById('aiDetailedDesc01Text').value,
+        application: document.getElementById('aiApplication').value,
         media1: document.getElementById('aiMedia1').value,
         media2: document.getElementById('aiMedia2').value,
         media3: document.getElementById('aiMedia3').value,
         specs: document.getElementById('aiSpecs').value,
         moq: document.getElementById('aiMOQ').value,
-        tags: document.getElementById('aiTags').value
+        tags: document.getElementById('aiTags').value,
+        relatedProducts: document.getElementById('aiRelatedProducts').value
     };
 }
 
@@ -1931,7 +2043,7 @@ function saveData() {
     }
 
     const action = isUpdateMode ? '更新' : '新增';
-    if (!confirm(`確定要${action}此產品資料嗎？`)) {
+    if (!confirm(`確定要${action}此產品資料嗎?`)) {
         return;
     }
 
@@ -1946,15 +2058,22 @@ function saveData() {
         alias: data.alias,
         image: data.image,
         imageDesc: data.imageDesc,
+        carouselImage: data.carouselImage,
         introduction: data.introduction,
         detailedDesc: data.detailedDesc,
         features: data.features,
+        detailedDescList: data.detailedDescList,
+        mediaDesc01: data.mediaDesc01,
+        detailedDesc01List: data.detailedDesc01List,
+        detailedDesc01Text: data.detailedDesc01Text,
+        application: data.application,
         media1: data.media1,
         media2: data.media2,
         media3: data.media3,
         specs: data.specs,
         moq: data.moq,
-        tags: data.tags
+        tags: data.tags,
+        relatedProducts: data.relatedProducts
     };
 
     console.log('儲存資料到Make.com:', saveData);
@@ -1995,14 +2114,14 @@ function saveData() {
     })
     .then(result => {
         if (result.success) {
-            alert(`產品資料已${action}成功！`);
+            alert(`產品資料已${action}成功!`);
 
             if (isUpdateMode) {
-                if (confirm('是否要清空表單以修改下一個產品？')) {
+                if (confirm('是否要清空表單以修改下一個產品?')) {
                     clearForm();
                 }
             } else {
-                if (confirm('是否要清空表單以新增下一個產品？')) {
+                if (confirm('是否要清空表單以新增下一個產品?')) {
                     clearForm();
                 }
             }
@@ -2021,7 +2140,7 @@ function saveData() {
 }
 
 function clearForm() {
-    if (!confirm('確定要清空所有資料嗎？此操作無法復原。')) {
+    if (!confirm('確定要清空所有資料嗎?此操作無法復原。')) {
         return;
     }
 
@@ -2029,8 +2148,8 @@ function clearForm() {
     document.getElementById('productModel').value = '';
     document.getElementById('productName').value = '';
     document.getElementById('supplierInfo').value = '';
-    document.getElementById('introductionPrompt').value = ''; // 清空提示輸入框
-    document.getElementById('detailedDescPrompt').value = ''; // 清空詳述提示輸入框
+    document.getElementById('introductionPrompt').value = '';
+    document.getElementById('detailedDescPrompt').value = '';
 
     // 重設分類選擇
     const categorySelect = document.getElementById('categoryId');
@@ -2038,11 +2157,13 @@ function clearForm() {
     document.getElementById('customCategoryId').value = '';
     document.getElementById('customCategoryContainer').classList.remove('show');
 
-    // 清空AI欄位
+    // 清空AI欄位 - 包含新增的欄位
     const aiFields = [
-        'aiSystemId', 'aiAlias', 'aiImage', 'aiImageDesc', 
+        'aiSystemId', 'aiAlias', 'aiImage', 'aiImageDesc', 'aiCarouselImage',
         'aiIntroduction', 'aiDetailedDesc', 'aiFeatures',
-        'aiMedia1', 'aiMedia2', 'aiMedia3', 'aiSpecs', 'aiTags'
+        'aiDetailedDescList', 'aiMediaDesc01', 'aiDetailedDesc01List', 
+        'aiDetailedDesc01Text', 'aiApplication',
+        'aiMedia1', 'aiMedia2', 'aiMedia3', 'aiSpecs', 'aiTags', 'aiRelatedProducts'
     ];
 
     aiFields.forEach(field => {
@@ -2055,11 +2176,13 @@ function clearForm() {
     // 重設MOQ為預設值
     document.getElementById('aiMOQ').value = 'Made in Taiwan';
 
-    // 清空原始資料
+    // 清空原始資料 - 包含新增的欄位
     const originalFields = [
-        'originalSystemId', 'originalAlias', 'originalImage', 'originalImageDesc',
+        'originalSystemId', 'originalAlias', 'originalImage', 'originalImageDesc', 'originalCarouselImage',
         'originalIntroduction', 'originalDetailedDesc', 'originalFeatures',
-        'originalMedia1', 'originalMedia2', 'originalMedia3', 'originalSpecs', 'originalMOQ', 'originalTags'
+        'originalDetailedDescList', 'originalMediaDesc01', 'originalDetailedDesc01List',
+        'originalDetailedDesc01Text', 'originalApplication',
+        'originalMedia1', 'originalMedia2', 'originalMedia3', 'originalSpecs', 'originalMOQ', 'originalTags', 'originalRelatedProducts'
     ];
 
     originalFields.forEach(field => {
@@ -2074,7 +2197,7 @@ function clearForm() {
 
     // 根據當前模式決定後續行為
     if (isUpdateMode) {
-        // 修改模式下清空後，解鎖相關欄位以便載入新產品
+        // 修改模式下清空後,解鎖相關欄位以便載入新產品
         document.getElementById('categoryId').disabled = false;
         document.getElementById('customCategoryId').disabled = false;
         document.getElementById('productName').disabled = false;
